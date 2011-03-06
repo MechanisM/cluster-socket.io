@@ -17,8 +17,7 @@ module.exports.master = function(socketDirectory) {
         fs.stat(socket, function(err) {
           if (!err) {
             client = net.createConnection(socket);
-            console.log("Connected to IPC socket:", socket);
-
+ 
             // Hook everything up
             connections.forEach(function(v) {
               client.pipe(v);
@@ -56,7 +55,7 @@ module.exports.child = function(io, socketDirectory) {
       try {
         msg = JSON.parse(d.toString());
         if (msg.type && msg.type === "broadcast") {
-          console.log("broadcasting to silo", process.pid + '', msg);
+
           // Broadcast to this silo
           broadcast.call(io, msg.message);
         }
@@ -67,16 +66,11 @@ module.exports.child = function(io, socketDirectory) {
 
     // Replace local broadcast with messaging to the master
     io.broadcast = function(msg, except) {
-      // Send the broadcast event to the master to be forwarded around
-      if (Object.prototype.toString.call(msg) == '[object Object]'){
-        c.write(JSON.stringify({
-          type    : 'broadcast',
-          message : msg
-        }));
-
-      } else {
-        return broadcast(msg, except);
-      }
+      c.write(JSON.stringify({
+        type    : 'broadcast',
+        message : msg
+      }));
+      return broadcast.call(io, msg, except);
     };
   });
   ipc.listen(socket);
