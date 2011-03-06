@@ -1,0 +1,17 @@
+{
+  "name": "cluster-socket.io",
+  "description": "A learnboost/cluster plugin for managing socket.io child processes\"",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tmpvar/cluster-socket.io.git"
+  },
+  "author": "Elijah Insua <tmpvar@gmail.com> (http://tmpvar.com)",
+  "main": "index",
+  "directories": {
+    "lib": "."
+  },
+  "engines": {
+    "node": "*"
+  }
+}
