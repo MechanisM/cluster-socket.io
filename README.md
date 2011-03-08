@@ -17,7 +17,7 @@ Unix sockets handle communication between silo->cluster->silos.
 
 `var bridge = require('cluster-socket.io')`
 
- - `bridge`.master(io [, host, port])
+ - bridge(io [, host, port])
   - `socket` is the server object returned by  `socket.io.listen`
   - `host` is an ip address use 127.0.0.1 for only internal connections (defaults to 127.0.0.1)
   - `port` is the port on which the cluster server will listen on (defaults to 43000)
