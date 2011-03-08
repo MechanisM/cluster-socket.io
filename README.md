@@ -17,12 +17,11 @@ Unix sockets handle communication between silo->cluster->silos.
 
 `var bridge = require('cluster-socket.io')`
 
- - `bridge`.master(socket, path)
+ - `bridge`.master(io [, host, port])
   - `socket` is the server object returned by  `socket.io.listen`
-  - `path` is a path to a directory to conain the UNIX sockets for IPC between the master and worker processes
+  - `host` is an ip address use 127.0.0.1 for only internal connections (defaults to 127.0.0.1)
+  - `port` is the port on which the cluster server will listen on (defaults to 43000)
 
- - bridge.child(path)
-  - `path` is a path to a directory to conain the UNIX sockets for IPC between the master and worker processes
 
 ## Example
 
@@ -42,13 +41,10 @@ Unix sockets handle communication between silo->cluster->silos.
 
     socket = io.listen(server)
 
-    bridge.child(socket, socketPath);
-
     io.on('connection', function(client){
       // Use socket.io as you normally would
     });
 
     cluster(app)
-      .use(bridge.master(socketPath))
+      .use(bridge(io))
       .listen(3000);
-
