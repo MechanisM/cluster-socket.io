@@ -40,7 +40,7 @@ exports = module.exports = function(io, host, port) {
         partial = '';
 
         // If the boundry occurs at the end of the last chunk
-        // re-use the last element in the array as it is a 
+        // re-use the last element in the array as it is a
         // partial message
         if (parts[parts.length - 1]) {
           buf = parts.pop();
@@ -82,7 +82,11 @@ exports = module.exports = function(io, host, port) {
       workers.forEach(function(w) {
         w.pipe(worker, { end: false });
         worker.pipe(w, { end: false });
+        w.setMaxListeners(workers.length * 2);
+        worker.setMaxListeners(workers.length * 2);
       });
+
+
 
       // Method for removing workers when they
       // error out or close
@@ -111,7 +115,7 @@ exports = module.exports = function(io, host, port) {
 //   pid       = process.pid,
 //   socket    = path.join(socketDirectory || './sockets', pid + '.sock'),
 //   broadcast = io.broadcast,
-// 
+//
 //   // Listen to the socket
 //   ipc       = net.createServer(function(c) {
 //     c.on('data', function(d) {
@@ -119,7 +123,7 @@ exports = module.exports = function(io, host, port) {
 //       try {
 //         msg = JSON.parse(d.toString());
 //         if (msg.type && msg.type === "broadcast") {
-// 
+//
 //           // Broadcast to this silo
 //           broadcast.call(io, msg.message);
 //         }
@@ -127,7 +131,7 @@ exports = module.exports = function(io, host, port) {
 //         console.log(e.stack);
 //       }
 //     });
-// 
+//
 //     // Replace local broadcast with messaging to the master
 //     io.broadcast = function(msg, except) {
 //       c.write(JSON.stringify({
