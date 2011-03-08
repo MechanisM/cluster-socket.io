@@ -29,7 +29,6 @@ Unix sockets handle communication between silo->cluster->silos.
       , fs     = require('fs')
       , io     = require('socket.io')
       , bridge      = require('cluster-socket.io')
-      , socketPath  = __dirname + '/sockets'
       , server
       , socket;
 
@@ -46,5 +45,5 @@ Unix sockets handle communication between silo->cluster->silos.
     });
 
     cluster(app)
-      .use(bridge(io))
+      .use(bridge(socket))
       .listen(3000);
